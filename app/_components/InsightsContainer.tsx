@@ -4,6 +4,7 @@ import PatientFeedbackForm from "./PatientFeedbackForm";
 import createPatientFeedbackInsight from "../_actions/createPatientFeedbackInsight";
 import InsightsHistory from "./InsightsHistory";
 import { SmartPatientInsight } from "../_types/types";
+import ProcessedInsights from "./ProcessedInsights";
 
 export default function InsightsContainer() {
     const [state, formAction, pending] = useActionState(createPatientFeedbackInsight, null);
@@ -17,10 +18,11 @@ export default function InsightsContainer() {
         }
         setInsights(JSON.parse(localStorage.getItem('responseHistory') || "[]"))
 
-    }, [state])
+    }, [state, pending])
 
-    return <div className="border-1 border-indigo-600 w-full">
+    return <div className="h-full w-full">
+        {state && !pending && <ProcessedInsights {...state} />}
         <PatientFeedbackForm state={state} formAction={formAction} pending={pending} />
-        <InsightsHistory insights={insights} />
+        <InsightsHistory insights={[...insights].slice(0, (state !== null ? -1 : undefined)).reverse()} />
     </div>
 }

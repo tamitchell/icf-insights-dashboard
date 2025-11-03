@@ -31,6 +31,8 @@ export default function RootLayout({
         <header className="flex w-full max-w-3xl flex-col items-start justify-start px-16 ">
           <nav>
             <Link href="/">Home</Link>
+            |
+            <Link href="/dashboard">Dashboard</Link>
           </nav>
         </header>
         {children}

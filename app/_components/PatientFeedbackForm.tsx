@@ -10,7 +10,7 @@ interface PatientFeedbackFormProps {
 
 export default function PatientFeedbackForm({state, formAction, pending}: PatientFeedbackFormProps) {
 
-    return <div>
+    return <div className="mb-4">
         <form className="" action={formAction}>
             <div className="flex flex-row w-full gap-2 justify-between">
             <label htmlFor="patientFeedback" className="w-[90%]">

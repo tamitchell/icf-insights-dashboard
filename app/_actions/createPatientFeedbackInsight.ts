@@ -1,21 +1,20 @@
 import { SmartPatientInsight } from "../_types/types";
-import { generateUUID } from "../_utilities/generateId";
+import { generateUUID } from "../_utilities/utilities";
 
 const mockResponse: SmartPatientInsight = {
     id: generateUUID(),
-    title: "Unclear Directives and Negative Experience",
-    sentiment: "negative",
-    key_topics: ["disgruntled", "time impact", "cost"],
-    action_requried: true,
-    summary: "The patient had negative experience and explained high wait times, unclear directives from doctor, and other stuff.",
+    title: "All around great time",
+    sentiment: "neutral",
+    key_topics: ["happy", "time impact", "cost"],
+    action_requried: false,
+    summary: "The patient had an all around okay time, and other stuff.",
     timestamp: Date.now()
 }
 
 export default async function createPatientFeedbackInsight(initialState: SmartPatientInsight | null, formData: FormData): Promise<SmartPatientInsight> {
 
-    if(!process.env.OPENAI_API_KEY) {
-        return mockResponse
-    }
+    if (!process.env.OPENAI_API_KEY) { console.info("No key detected, sending mock instead"); return new Promise((resolve) => setTimeout(() => { resolve(mockResponse) }, 2000)) };
+
     try {
     const feedback = formData.get('patientFeedback') as string;
     
