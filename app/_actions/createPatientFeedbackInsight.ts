@@ -1,4 +1,6 @@
-import { SmartPatientInsight } from "../_types/types";
+'use server';
+import { ChatOpenAI } from "@langchain/openai";
+import { SmartPatientInsight, SmartPatientInsightSchema } from "../_types/types";
 import { generateUUID } from "../_utilities/utilities";
 
 const mockResponse: SmartPatientInsight = {
@@ -12,15 +14,35 @@ const mockResponse: SmartPatientInsight = {
 }
 
 export default async function createPatientFeedbackInsight(initialState: SmartPatientInsight | null, formData: FormData): Promise<SmartPatientInsight> {
+    console.log(process.env.OPENAI_API_KEY)
 
     if (!process.env.OPENAI_API_KEY) { console.info("No key detected, sending mock instead"); return new Promise((resolve) => setTimeout(() => { resolve(mockResponse) }, 2000)) };
-
     try {
-    const feedback = formData.get('patientFeedback') as string;
-    
-    return new Promise(resolve => setTimeout(() => resolve(mockResponse), 1000))
+        const model = new ChatOpenAI({
+            model: 'gpt-4o',
+            apiKey: process.env.OPENAI_API_KEY,
+            timeout: 150000,
+        });
+        const feedback = formData.get('patientFeedback') as string;
 
-    } catch(error) {
+        const prompt = `
+            Analyze this customer feedback:
+            ${feedback}
+            and return JSON with:
+            - sentiment: positive/neutral/negative
+            - key_topics: array of 3-5 main topics
+
+            - action_required: boolean
+            - summary: one sentence summary
+            `
+
+
+        const modelWithStructuredOutput = model.withStructuredOutput(SmartPatientInsightSchema);
+        const response = await modelWithStructuredOutput.invoke(prompt);
+        console.log("DATA FROM API MODEL", response);
+
+        return response
+    } catch (error) {
         console.error("There was a problem analyzing input", error);
         throw new Error("There was a problem submitting request");
     }

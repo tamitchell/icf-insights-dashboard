@@ -1,5 +1,5 @@
 'use client';
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useMemo, useState } from "react";
 import PatientFeedbackForm from "./PatientFeedbackForm";
 import createPatientFeedbackInsight from "../_actions/createPatientFeedbackInsight";
 import InsightsHistory from "./InsightsHistory";
@@ -20,9 +20,13 @@ export default function InsightsContainer() {
 
     }, [state, pending])
 
+    const excludedCurrentInsightList = useMemo(() => {
+        return [...insights].slice(0, (state !== null ? -1 : undefined)).reverse()
+    }, [insights])
+
     return <div className="h-full w-full">
         {state && !pending && <ProcessedInsights {...state} />}
         <PatientFeedbackForm state={state} formAction={formAction} pending={pending} />
-        <InsightsHistory insights={[...insights].slice(0, (state !== null ? -1 : undefined)).reverse()} />
+        {<InsightsHistory insights={excludedCurrentInsightList} />}
     </div>
 }
