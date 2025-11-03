@@ -1,14 +1,15 @@
 'use client';
 
-import { useActionState, useEffect } from "react";
-import createPatientFeedbackInsight from "../_actions/createPatientFeedbackInsight";
+import { SmartPatientInsight } from "../_types/types";
 
-export default function PatientFeedbackForm() {
-    const [state, formAction, pending] = useActionState(createPatientFeedbackInsight, null);
+interface PatientFeedbackFormProps {
+    state: SmartPatientInsight | null,
+    formAction: (payload: FormData) => void,
+    pending: boolean;
+}
 
-    useEffect(() => {
-        const cache = localStorage.getItem('responseHistory');
-    }, [state]);
+export default function PatientFeedbackForm({state, formAction, pending}: PatientFeedbackFormProps) {
+
     return <div>
         <form className="" action={formAction}>
             <div className="flex flex-row w-full gap-2 justify-between">
