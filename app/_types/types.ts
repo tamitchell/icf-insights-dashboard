@@ -14,6 +14,7 @@
 import * as z from "zod";
 
 export const SmartPatientInsightSchema = z.object({
+    id: z.uuidv4(),
     sentiment: z.enum(["positive", "neutral", "negative"]),
     key_topics: z.array(z.string()).min(3).max(5),
     action_requried: z.boolean(),
