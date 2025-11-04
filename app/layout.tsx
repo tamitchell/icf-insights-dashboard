@@ -23,14 +23,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
- 
+
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navigation />
+      >        <Navigation />
+        <h1 className="text-foreground w-full text-center text-xl font-extrabold">Patient Insights Analyzer</h1>
+
         {children}
       </body>
     </html>

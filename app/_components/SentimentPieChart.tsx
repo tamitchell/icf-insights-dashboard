@@ -39,7 +39,7 @@ export default function SentimentPieChart({ patientInsights }: SentimentPieChart
             cx="50%"
             cy="50%"
             outerRadius="50%"
-            label={(label) => `${label.name}: `}
+            label={(label) => `${label.name}: ${Math.round(Number(label.percent) * 100)}%`}
         >
             {sentiments.map(({ sentiment, count }, i) => {
                 const getColor = (sentiment: "positive" | "negative" | "neutral") => {

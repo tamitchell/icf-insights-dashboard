@@ -16,7 +16,7 @@ export default function ProcessedInsights({timestamp, sentiment, action_requried
                         <span className="truncate w-ful font-bold">{title}</span>
                         <span className="ml-auto">{formatDate(timestamp)}</span>
                         </div>
-                        <span className="">Action Required? { action_requried ? <strong>Yes</strong> : <></>}</span>
+                        <span className="">Action Required? { action_requried ? <strong>Yes</strong> :  "No"}</span>
                         <p className="font-400 italic"> {summary}</p>
                         <span className="capitalize">Key Topics: {key_topics.join(", ")}</span>
                     </div>

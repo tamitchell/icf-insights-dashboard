@@ -24,16 +24,18 @@ export default async function createPatientFeedbackInsight(initialState: SmartPa
             timeout: 150000,
         });
         const feedback = formData.get('patientFeedback') as string;
-
+        const timestamp = Date.now()
         const prompt = `
             Analyze this customer feedback:
             ${feedback}
             and return JSON with:
+            - id: ${generateUUID()} (utilize it exactly)
+            - title: Patient's Opinion in a few words
             - sentiment: positive/neutral/negative
             - key_topics: array of 3-5 main topics
-
             - action_required: boolean
             - summary: one sentence summary
+            - timestamp: ${timestamp}
             `
 
 
